@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eisenhower matrix</title>
+  <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
+  <link rel="icon" href="http://example.com/favicon.png">
+  <script type="text/javascript" src="./chartjs/Chart.js"></script>
+  <script type="text/javascript" src="./chartjs/utils.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./eisenhower-matrix.js"></script>
+  <style>
+    .wrapper {
+	min-height: 400px;
+	padding: 16px 0;
+	position: relative;
+    }
+
+    .wrapper canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+    }
+
+    .content {
+	max-width: 600px;
+	margin: auto;
+	padding: 16px 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+  <div class="container">
+    <div class="toolbar" style="float: left; height: 30px;">
+          <button type="button" class="btn btn-default" id="BtnTaskList">Back to tasks list</button>
+          </div>
+
+
+        
+  <div class="content">
+    <div class="wrapper"><canvas id="chart-0"></canvas></div>
+  </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const tasks_file = urlParams.getAll('file');
+    const my_data = {
+	datasets: [{
+	    data: generateChartData(tasks_file)
+	}]
+    };
+
+    const chart = new Chart('chart-0', {
+	type: 'bubble',
+	data: my_data,
+	options: my_options
+    });
+
+    $().ready(function(){
+        $("#BtnTaskList").click( function(event) {window.open("./eisenhower-matrix.html?file=" + tasks_file, "_self") });
+        chart.update();
+    });
+  </script>
+</body>
+</html>
